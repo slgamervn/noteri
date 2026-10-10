@@ -9,36 +9,32 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <link rel="icon" href="favicon.svg" />
   <style>
-    html, body { margin:0; padding:0; height:100%; background:#f3ebdf; color:#2a241c; font-family:system-ui,sans-serif; }
-    #splash {
-      position:fixed; inset:0; display:flex; flex-direction:column;
-      align-items:center; justify-content:center; background:#f3ebdf; z-index:9999;
-    }
-    #splash h1 { font-size:2.4rem; margin:0 0 12px; font-weight:700; }
-    #splash p { margin:0; color:#7c6f60; font-size:1rem; }
-    #root { min-height:100%; }
+    html, body { margin:0; padding:0; min-height:100%; background:#f3ebdf; color:#2a241c; font-family:system-ui,-apple-system,sans-serif; }
+    #app { padding:24px; max-width:600px; margin:0 auto; }
+    h1 { font-size:2rem; margin:0 0 8px; }
+    .card { background:#fff9f2; border-radius:16px; padding:16px; margin:12px 0; box-shadow:0 4px 12px rgba(42,36,28,.08); }
+    button { background:#c4512c; color:#fff8f2; border:0; border-radius:999px; padding:12px 20px; font-weight:600; font-size:1rem; }
+    #status { color:#7c6f60; font-size:.9rem; }
   </style>
 </head>
 <body>
-  <div id="splash">
+  <div id="app">
     <h1>NOTERI</h1>
-    <p>Đang mở sổ tay…</p>
+    <p id="status">Sổ tay đang khởi động…</p>
+    <div class="card">
+      <p>Nếu trang này hiện, kết nối đã ổn.</p>
+      <button onclick="location.reload(true)">Tải lại</button>
+    </div>
   </div>
   <div id="root"></div>
-  <script>
-    window.addEventListener("error", function(e) {
-      document.getElementById("splash").innerHTML = "<h1>NOTERI</h1><p style='color:#b64038'>Lỗi tải. Thử tải lại trang.</p>";
-    });
-    const obs = new MutationObserver(function() {
-      var root = document.getElementById("root");
-      if (root && root.children.length) {
-        var s = document.getElementById("splash");
-        if (s) s.style.display = "none";
-        obs.disconnect();
-      }
-    });
-    obs.observe(document.getElementById("root"), { childList: true, subtree: true });
+  <script type="module">
+    try {
+      const mod = await import("./assets/index-DRaFqZ6T.js");
+      document.getElementById("status").textContent = "Đã tải xong.";
+    } catch (err) {
+      document.getElementById("status").textContent = "Lỗi: " + (err.message || err);
+      document.getElementById("status").style.color = "#b64038";
+    }
   </script>
-  <script type="module" src="./assets/index-DRaFqZ6T.js"></script>
 </body>
 </html>
