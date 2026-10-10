@@ -10,30 +10,39 @@
   <link rel="icon" href="favicon.svg" />
   <style>
     html, body { margin:0; padding:0; min-height:100%; background:#f3ebdf; color:#2a241c; font-family:system-ui,-apple-system,sans-serif; }
-    #app { padding:24px; max-width:600px; margin:0 auto; }
-    h1 { font-size:2rem; margin:0 0 8px; }
-    .card { background:#fff9f2; border-radius:16px; padding:16px; margin:12px 0; box-shadow:0 4px 12px rgba(42,36,28,.08); }
-    button { background:#c4512c; color:#fff8f2; border:0; border-radius:999px; padding:12px 20px; font-weight:600; font-size:1rem; }
-    #status { color:#7c6f60; font-size:.9rem; }
+    #fallback { padding:24px; max-width:640px; margin:0 auto; }
+    #fallback h1 { font-size:2rem; margin:0 0 8px; }
+    #fallback .card { background:#fff9f2; border-radius:16px; padding:16px; margin:12px 0; }
+    #root { min-height:100vh; }
+    #root:empty + #fallback, #root:not(:empty) ~ #fallback { display:none; }
+    #root:not(:empty) { display:block; }
   </style>
 </head>
 <body>
-  <div id="app">
+  <div id="root"></div>
+  <div id="fallback">
     <h1>NOTERI</h1>
-    <p id="status">Sổ tay đang khởi động…</p>
+    <p id="status">Đang tải sổ tay…</p>
     <div class="card">
-      <p>Nếu trang này hiện, kết nối đã ổn.</p>
-      <button onclick="location.reload(true)">Tải lại</button>
+      <p>Nếu thấy dòng này lâu, nhấn nút bên dưới.</p>
+      <button onclick="location.reload()" style="background:#c4512c;color:#fff;border:0;border-radius:999px;padding:12px 20px;font-weight:600;">Tải lại</button>
     </div>
   </div>
-  <div id="root"></div>
   <script type="module">
+    const status = document.getElementById("status");
     try {
-      const mod = await import("./assets/index-DRaFqZ6T.js");
-      document.getElementById("status").textContent = "Đã tải xong.";
+      await import("./assets/index-DRaFqZ6T.js");
+      // Wait a bit to see if React actually renders something
+      setTimeout(() => {
+        const root = document.getElementById("root");
+        if (!root || root.children.length === 0) {
+          status.textContent = "App chưa hiện. Thử tải lại.";
+          status.style.color = "#b64038";
+        }
+      }, 3000);
     } catch (err) {
-      document.getElementById("status").textContent = "Lỗi: " + (err.message || err);
-      document.getElementById("status").style.color = "#b64038";
+      status.textContent = "Lỗi tải: " + (err && err.message ? err.message : String(err));
+      status.style.color = "#b64038";
     }
   </script>
 </body>
