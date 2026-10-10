@@ -1,0 +1,26 @@
+{
+  "name": "NOTERI",
+  "short_name": "NOTERI",
+  "description": "Sổ tay học bài và ghi chú: trang vẽ, chữ, ảnh, PDF, việc cần làm.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#F3EBDF",
+  "theme_color": "#F3EBDF",
+  "lang": "vi",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/__grok/icon-180.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
