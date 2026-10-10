@@ -8,13 +8,32 @@
   <meta name="theme-color" content="#F3EBDF" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <link rel="icon" href="favicon.svg" />
-  <link rel="apple-touch-icon" href="icon-192.png" />
-  <link rel="preload" href="./assets/styles-5Qmwu_gX.css" as="style" />
-  <link rel="stylesheet" href="./assets/styles-5Qmwu_gX.css" />
-  <link rel="preload" href="./assets/index-CfxRli_m.js" as="script" crossorigin />
+  <style>
+    :root { --bg:#f3ebdf; --surface:#fff9f2; --ink:#2a241c; --accent:#c4512c; }
+    * { box-sizing:border-box; }
+    body { margin:0; font-family:system-ui,sans-serif; background:var(--bg); color:var(--ink); }
+    #splash { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--bg); z-index:999; }
+    #splash h1 { font-size:2.2rem; margin:0 0 8px; }
+    #splash p { color:#7c6f60; margin:0; }
+    #root { min-height:100vh; }
+  </style>
 </head>
 <body>
+  <div id="splash">
+    <h1>NOTERI</h1>
+    <p>Đang mở sổ tay…</p>
+  </div>
   <div id="root"></div>
+  <script>
+    // Hide splash as soon as React mounts
+    const obs = new MutationObserver(() => {
+      if (document.getElementById("root").children.length) {
+        document.getElementById("splash").style.display = "none";
+        obs.disconnect();
+      }
+    });
+    obs.observe(document.getElementById("root"), { childList: true });
+  </script>
   <script type="module" src="./assets/index-CfxRli_m.js"></script>
 </body>
 </html>
