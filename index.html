@@ -9,13 +9,14 @@
   <meta name="apple-mobile-web-app-capable" content="yes" />
   <link rel="icon" href="favicon.svg" />
   <style>
-    :root { --bg:#f3ebdf; --surface:#fff9f2; --ink:#2a241c; --accent:#c4512c; }
-    * { box-sizing:border-box; }
-    body { margin:0; font-family:system-ui,sans-serif; background:var(--bg); color:var(--ink); }
-    #splash { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; background:var(--bg); z-index:999; }
-    #splash h1 { font-size:2.2rem; margin:0 0 8px; }
-    #splash p { color:#7c6f60; margin:0; }
-    #root { min-height:100vh; }
+    html, body { margin:0; padding:0; height:100%; background:#f3ebdf; color:#2a241c; font-family:system-ui,sans-serif; }
+    #splash {
+      position:fixed; inset:0; display:flex; flex-direction:column;
+      align-items:center; justify-content:center; background:#f3ebdf; z-index:9999;
+    }
+    #splash h1 { font-size:2.4rem; margin:0 0 12px; font-weight:700; }
+    #splash p { margin:0; color:#7c6f60; font-size:1rem; }
+    #root { min-height:100%; }
   </style>
 </head>
 <body>
@@ -25,14 +26,18 @@
   </div>
   <div id="root"></div>
   <script>
-    // Hide splash as soon as React mounts
-    const obs = new MutationObserver(() => {
-      if (document.getElementById("root").children.length) {
-        document.getElementById("splash").style.display = "none";
+    window.addEventListener("error", function(e) {
+      document.getElementById("splash").innerHTML = "<h1>NOTERI</h1><p style='color:#b64038'>Lỗi tải. Thử tải lại trang.</p>";
+    });
+    const obs = new MutationObserver(function() {
+      var root = document.getElementById("root");
+      if (root && root.children.length) {
+        var s = document.getElementById("splash");
+        if (s) s.style.display = "none";
         obs.disconnect();
       }
     });
-    obs.observe(document.getElementById("root"), { childList: true });
+    obs.observe(document.getElementById("root"), { childList: true, subtree: true });
   </script>
   <script type="module" src="./assets/index-CfxRli_m.js"></script>
 </body>
